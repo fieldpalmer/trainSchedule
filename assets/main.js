@@ -39,7 +39,6 @@ $("#add-train-btn").on("click", function(event) {
     var trainDest= $("#destination-input").val().trim();
     var trainFreq = $("#frequency-input").val();
     var trainOne = $("#first-train-input").val();    
-    var trainConductor = $("#conductor-input").val().trim();
   
     // Creates local "temporary" object for holding train data
     var newTrain = {
@@ -47,7 +46,6 @@ $("#add-train-btn").on("click", function(event) {
       destination: trainDest,
       frequency: trainFreq,
       firstTrain: trainOne,
-      conductor: trainConductor
     };
   
     // Uploads train data to the database
@@ -57,7 +55,7 @@ $("#add-train-btn").on("click", function(event) {
     $("#train-name-input").val("");
     $("#destination-inpu").val("");
     $("#frequency-input").val("");
-    $("#conductor-input").val("");
+    $("#first-train-input").val("");
 });
   
 // Create Firebase event for adding trains to the database and a row in the html when a user adds an entry
@@ -68,7 +66,6 @@ database.ref().on("child_added", function(childSnapshot) {
     var trainDest = childSnapshot.val().destination;
     var trainOne = childSnapshot.val().firstTrain;
     var trainFreq = childSnapshot.val().frequency;
-    var trainConductor = childSnapshot.val().conductor;
   
     //Train schedule calculation (function?)
 
@@ -77,8 +74,6 @@ database.ref().on("child_added", function(childSnapshot) {
     var firstTime = trainOne;
     // First Time (pushed back 1 year to make sure it comes before current time)
     var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-    // Current Time
-    var currentTime = moment();
     // Difference between the times
     var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
     // Time apart (remainder)
@@ -93,13 +88,13 @@ database.ref().on("child_added", function(childSnapshot) {
     var newRow = $("<tr>").append(
       $("<td>").text(trainName),
       $("<td>").text(trainDest),
-      $("<td>").text(trainFreq),
+      $("<td style='text-align:center;'>").text(trainFreq),
       $("<td>").text(moment(nextTrain).format("HH:mm")),
       $("<td>").text(tMinutesTillTrain)
     );
 
   
     // Append the new row to the table
-    $("#train-table > tbody").append(newRow);
+    $("#train-table-body").append(newRow);
   });
 
