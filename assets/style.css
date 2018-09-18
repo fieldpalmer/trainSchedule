@@ -1,5 +1,9 @@
+body {
+    background-image: url('./images/red_and_purple_paisley_detail.jpg')
+}
+
 .jumbotron {
-    background-color: rgb(87, 0, 87);
+    background-image: linear-gradient(rgb(87, 0, 87), rgb(97, 0 ,98));
     color: white;
 }
 
